@@ -8,7 +8,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
@@ -18,6 +21,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.codegym.controller")
+@PropertySource("classpath:upload_file.properties")
 public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
@@ -51,6 +55,21 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
 		viewResolver.setTemplateEngine(templateEngine());
 		viewResolver.setCharacterEncoding("UTF-8");
 		return viewResolver;
+	}
+
+	//Upload file
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		String UPLOAD_PATH = "/Users/thang/Documents/image/";
+		registry.addResourceHandler("/image/**")
+				.addResourceLocations("file:" + UPLOAD_PATH);
+	}
+
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver getResolver() {
+		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+		resolver.setMaxUploadSizePerFile(52428800);
+		return resolver;
 	}
 
 	@Bean

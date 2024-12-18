@@ -1,14 +1,16 @@
 package com.codegym.model;
 
-public class Product {
+import org.springframework.web.multipart.MultipartFile;
+
+public class ProductForm {
 	private int id;
 	private String name;
 	private String description;
-	private String image;
+	private MultipartFile image;
 
-	public Product() {}
+	public ProductForm() {}
 
-	public Product(int id, String name, String description, String image) {
+	public ProductForm(int id, String name, String description, MultipartFile image) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -39,11 +41,11 @@ public class Product {
 		this.description = description;
 	}
 
-	public String getImage() {
+	public MultipartFile getImage() {
 		return image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(MultipartFile image) {
 		this.image = image;
 	}
 }
