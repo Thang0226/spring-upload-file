@@ -27,7 +27,7 @@ public class ProductController {
 	private IProductService productService;
 
 	@Value("${file-upload}")
-	private String fileUpload;
+	private String folderPath;
 
 	@GetMapping
 	public String index(Model model) {
@@ -48,7 +48,7 @@ public class ProductController {
 		MultipartFile multipartFile = productForm.getImage();
 		String fileName = multipartFile.getOriginalFilename();
 		try {
-			FileCopyUtils.copy(productForm.getImage().getBytes(), new File(fileUpload + fileName));
+			FileCopyUtils.copy(productForm.getImage().getBytes(), new File(folderPath + fileName));
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			System.out.println(ex.getMessage());

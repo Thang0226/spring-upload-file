@@ -3,6 +3,7 @@ package com.codegym.config;
 import com.codegym.service.IProductService;
 import com.codegym.service.ProductService;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -58,17 +59,18 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
 	}
 
 	//Upload file
+	@Value("${file-upload}")
+	private String folderPath;
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		String UPLOAD_PATH = "/Users/thang/Documents/image/";
 		registry.addResourceHandler("/image/**")
-				.addResourceLocations("file:" + UPLOAD_PATH);
+				.addResourceLocations("file:" + folderPath);
 	}
-
 	@Bean(name = "multipartResolver")
 	public CommonsMultipartResolver getResolver() {
 		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-		resolver.setMaxUploadSizePerFile(52428800);
+		resolver.setMaxUploadSizePerFile(52428800);     // 50 MB
 		return resolver;
 	}
 
